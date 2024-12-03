@@ -44,6 +44,11 @@ export const getPatients = async (req: Request, res: Response): Promise<void> =>
 export const updatePatients = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
+    const patient = Patient.findById(id);
+    if (!patient) {
+      res.status(404).json({ message: "Patient not found" });
+      return;
+    }
     const updatedFields: DeepPartial<IPatient> = req.body;
     const updatedPatient = await Patient.findByIdAndUpdate(id, updatedFields, { new: true });
     res.status(200).json({
@@ -60,6 +65,11 @@ export const updatePatients = async (req: Request, res: Response): Promise<void>
 export const deletePatient = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
+    const patient = Patient.findById(id);
+    if (!patient) {
+      res.status(404).json({ message: "Patient not found" });
+      return;
+    }
     await Patient.findByIdAndDelete(id);
     res.status(200).json({
       message: "Patient deleted successfully",

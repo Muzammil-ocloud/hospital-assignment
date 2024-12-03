@@ -88,6 +88,11 @@ export const updateAppointment = async (req: Request, res: Response): Promise<vo
 export const deleteAppointment = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
+    const appointment = Appointment.findById(id);
+    if (!appointment) {
+      res.status(404).json({ message: "Appointment not found" });
+      return;
+    }
     await Appointment.findByIdAndDelete(id);
     res.status(200).json({
       message: "Appointment deleted successfully",
@@ -140,6 +145,11 @@ export const getUnPaidAppointments = async (req: Request, res: Response): Promis
 export const getRemainingAmount = async (req: Request, res: Response): Promise<void> => {
   try {
     const { patientId } = req.params;
+    const patient = Patient.findById(patientId);
+    if (!patient) {
+      res.status(404).json({ message: "Patient not found" });
+      return;
+    }
     const appointments = await Appointment.find({ patient: patientId });
     const totalAmount = await appointments.reduce(async (total, appointment) => {
       return {

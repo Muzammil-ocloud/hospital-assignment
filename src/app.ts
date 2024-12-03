@@ -8,7 +8,9 @@ const app = express();
 app.use(express.json());
 
 mongoose
-  .connect("mongodb://localhost/hospital")
+  .connect(
+    "mongodb+srv://muhammadmuzammil:JvYkbxS9Q4NE041K@hospitalassignment.nu5t1.mongodb.net/?retryWrites=true&w=majority&appName=HospitalAssignment"
+  )
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.error("MongoDB connection error:", err));
 const Port = 8000;
